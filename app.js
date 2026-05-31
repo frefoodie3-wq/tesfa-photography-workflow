@@ -16,6 +16,10 @@ const uploadStatus = document.querySelector("#uploadStatus");
 const clearGallery = document.querySelector("#clearGallery");
 const toast = document.querySelector("#toast");
 
+function getFileKey(file) {
+  return `${file.name}-${file.size}-${file.lastModified}`;
+}
+
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
@@ -155,13 +159,35 @@ proofFiles.addEventListener("change", () => {
     return;
   }
 
+  const existingKeys = new Set(photos.map((photo) => photo.fileKey));
+  const uniqueFiles = [];
+  let skippedCount = 0;
+
+  files.forEach((file) => {
+    const fileKey = getFileKey(file);
+    if (existingKeys.has(fileKey)) {
+      skippedCount += 1;
+      return;
+    }
+
+    existingKeys.add(fileKey);
+    uniqueFiles.push({ file, fileKey });
+  });
+
+  if (!uniqueFiles.length) {
+    proofFiles.value = "";
+    showToast(`${skippedCount} duplicate preview${skippedCount === 1 ? "" : "s"} skipped.`);
+    return;
+  }
+
   const startIndex = photos.length;
-  const newPhotos = files.map((file, index) => {
+  const newPhotos = uniqueFiles.map(({ file, fileKey }, index) => {
     const url = URL.createObjectURL(file);
     uploadedUrls.push(url);
     return {
       id: `TP-${String(startIndex + index + 1).padStart(3, "0")}`,
       fileName: file.name,
+      fileKey,
       tone: ["#c49975", "#dcb584", "#6f876f", "#c97155", "#9fb2b8", "#aa905e"][(startIndex + index) % 6],
       pos: "center",
       url
@@ -172,12 +198,16 @@ proofFiles.addEventListener("change", () => {
   currentFilter = "all";
   document.querySelectorAll("[data-filter]").forEach((item) => item.classList.remove("is-selected"));
   document.querySelector('[data-filter="all"]').classList.add("is-selected");
-  uploadStatus.textContent = `${files.length} added. ${photos.length} total preview${photos.length === 1 ? "" : "s"} loaded.`;
+  uploadStatus.textContent = `${uniqueFiles.length} added. ${photos.length} total preview${photos.length === 1 ? "" : "s"} loaded.`;
   proofFiles.value = "";
   updateGalleryMeta();
   renderPhotos();
   renderSelectedList();
-  showToast(`${files.length} preview${files.length === 1 ? "" : "s"} added.`);
+  showToast(
+    skippedCount
+      ? `${uniqueFiles.length} added, ${skippedCount} duplicate${skippedCount === 1 ? "" : "s"} skipped.`
+      : `${uniqueFiles.length} preview${uniqueFiles.length === 1 ? "" : "s"} added.`
+  );
 });
 
 galleryName.addEventListener("input", updateGalleryMeta);
