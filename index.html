@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tesfa Photography Workflow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar" aria-label="Main navigation">
+      <a class="brand" href="#workspace" aria-label="Tesfa Photography home">
+        <span class="brand-mark">T</span>
+        <span>
+          <strong>Tesfa Photography</strong>
+          <small>Client Proofing</small>
+        </span>
+      </a>
+      <nav>
+        <a href="#workflow">Workflow</a>
+        <a href="#client-view">Client View</a>
+        <a href="#deliver">Delivery</a>
+      </nav>
+      <button class="icon-button" type="button" aria-label="Copy client link" data-copy-link>
+        <span aria-hidden="true">↗</span>
+      </button>
+    </header>
+
+    <main id="workspace">
+      <section class="hero">
+        <img class="hero-image" src="assets/workflow-hero.png" alt="Photography workflow desk with laptop contact sheet and camera equipment">
+        <div class="hero-copy">
+          <p class="eyebrow">Easiest Professional Workflow</p>
+          <h1>Tesfa Photography</h1>
+          <p>Build a private preview gallery, send one clean link, collect client favorites, and deliver edited originals when they are ready.</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#workflow">Create Gallery</a>
+            <a class="secondary-action" href="#client-view">Preview Client Link</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace-grid" id="workflow" aria-label="Photographer workflow">
+        <div class="panel command-panel">
+          <div class="panel-heading">
+            <span>Workflow</span>
+            <strong>Your gallery pipeline</strong>
+          </div>
+          <ol class="steps">
+            <li class="is-complete">
+              <span>01</span>
+              <div>
+                <strong>Create gallery</strong>
+                <p>Wedding, portrait, event, or studio session.</p>
+              </div>
+            </li>
+            <li class="is-complete">
+              <span>02</span>
+              <div>
+                <strong>Upload previews</strong>
+                <p>Low-res proofs stay organized by filename.</p>
+              </div>
+            </li>
+            <li class="is-active">
+              <span>03</span>
+              <div>
+                <strong>Send link to client</strong>
+                <p>Private selection link ready to share.</p>
+              </div>
+            </li>
+            <li>
+              <span>04</span>
+              <div>
+                <strong>Client selects favorites</strong>
+                <p>They tap hearts and submit their list.</p>
+              </div>
+            </li>
+            <li>
+              <span>05</span>
+              <div>
+                <strong>Deliver edited originals later</strong>
+                <p>Final files are tracked after editing.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="panel gallery-builder">
+          <div class="panel-heading">
+            <span>Gallery Setup</span>
+            <strong>Create a client gallery</strong>
+          </div>
+          <form class="setup-form">
+            <label>
+              Gallery name
+              <input id="galleryName" type="text" value="Miriam & Daniel Engagement">
+            </label>
+            <label>
+              Client email
+              <input type="email" value="client@example.com">
+            </label>
+            <label>
+              Selection deadline
+              <input type="date" value="2026-06-14">
+            </label>
+            <label>
+              Max favorites
+              <input id="maxFavorites" type="number" min="1" max="40" value="12">
+            </label>
+          </form>
+          <div class="upload-zone" role="button" tabindex="0">
+            <span aria-hidden="true">↑</span>
+            <strong>Upload previews</strong>
+            <p>Drop low-res JPG previews here or choose files.</p>
+          </div>
+          <div class="link-box">
+            <span id="clientLink">tesfaphoto.com/g/miriam-daniel</span>
+            <button type="button" data-copy-link>Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="client-section" id="client-view" aria-label="Client gallery view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Client View</p>
+            <h2>Choose favorites from the preview gallery</h2>
+          </div>
+          <div class="selection-meter" aria-live="polite">
+            <strong id="selectedCount">0</strong>
+            <span>selected</span>
+          </div>
+        </div>
+
+        <div class="gallery-tools" aria-label="Gallery tools">
+          <div class="segmented-control" role="tablist" aria-label="Filter images">
+            <button class="is-selected" type="button" data-filter="all">All</button>
+            <button type="button" data-filter="selected">Selected</button>
+            <button type="button" data-filter="unselected">Unselected</button>
+          </div>
+          <button class="submit-button" type="button" id="submitSelections">Send Selected List</button>
+        </div>
+
+        <div class="photo-grid" id="photoGrid" aria-label="Preview photos"></div>
+      </section>
+
+      <section class="delivery-band" id="deliver" aria-label="Delivery tracking">
+        <div class="delivery-copy">
+          <p class="eyebrow">After Selection</p>
+          <h2>Receive the selected list and deliver originals later.</h2>
+          <p>The submitted filenames are ready for your editing queue, so you can retouch the right images and send final high-resolution files when complete.</p>
+        </div>
+        <div class="panel selected-panel">
+          <div class="panel-heading">
+            <span>Selected List</span>
+            <strong id="selectedTitle">Waiting for client picks</strong>
+          </div>
+          <ul id="selectedList" class="selected-list"></ul>
+          <button class="download-button" type="button" id="downloadList">Download List</button>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
