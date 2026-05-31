@@ -57,6 +57,10 @@
               Selection deadline
               <input type="date" value="2026-06-14">
             </label>
+            <label>
+              Selection limit
+              <input id="selectionLimit" type="number" min="1" value="100">
+            </label>
           </form>
           <button class="upload-zone" type="button" id="uploadButton">
             <span aria-hidden="true">↑</span>
@@ -77,6 +81,10 @@
           <div class="ready-card">
             <span id="proofCount">0</span>
             <strong>Preview files</strong>
+          </div>
+          <div class="ready-card">
+            <span id="limitCount">100</span>
+            <strong>Selection limit</strong>
           </div>
           <div class="ready-card">
             <span>TXT</span>
@@ -101,7 +109,6 @@
           <div class="segmented-control" role="tablist" aria-label="Filter images">
             <button class="is-selected" type="button" data-filter="all">All</button>
             <button type="button" data-filter="selected">Selected</button>
-            <button type="button" data-filter="unselected">Unselected</button>
           </div>
           <button class="submit-button" type="button" id="submitSelections">Send Selected List</button>
         </div>

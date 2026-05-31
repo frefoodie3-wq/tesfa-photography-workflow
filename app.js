@@ -9,6 +9,8 @@ const selectedCount = document.querySelector("#selectedCount");
 const selectedList = document.querySelector("#selectedList");
 const selectedTitle = document.querySelector("#selectedTitle");
 const galleryName = document.querySelector("#galleryName");
+const selectionLimit = document.querySelector("#selectionLimit");
+const limitCount = document.querySelector("#limitCount");
 const clientLink = document.querySelector("#clientLink");
 const proofFiles = document.querySelector("#proofFiles");
 const proofCount = document.querySelector("#proofCount");
@@ -27,6 +29,10 @@ function showToast(message) {
   showToast.timer = window.setTimeout(() => toast.classList.remove("is-visible"), 2400);
 }
 
+function getSelectionLimit() {
+  return Math.max(1, Number(selectionLimit.value) || 1);
+}
+
 function renderPhotos() {
   grid.innerHTML = "";
 
@@ -42,15 +48,14 @@ function renderPhotos() {
 
   const visiblePhotos = photos.filter((photo) => {
     if (currentFilter === "selected") return selected.has(photo.id);
-    if (currentFilter === "unselected") return !selected.has(photo.id);
-    return true;
+    return !selected.has(photo.id);
   });
 
   if (!visiblePhotos.length) {
     grid.innerHTML = `
       <div class="empty-gallery">
         <strong>No photos in this view</strong>
-        <p>Switch filters or select photos from the full gallery.</p>
+        <p>${currentFilter === "selected" ? "Selected photos will appear here." : "Every preview in this view has already been selected."}</p>
       </div>
     `;
     return;
@@ -112,12 +117,16 @@ function updateGalleryMeta() {
 
   clientLink.textContent = `${window.location.origin}/?gallery=${slug}#client-view`;
   proofCount.textContent = photos.length;
+  limitCount.textContent = getSelectionLimit();
   clearGallery.disabled = photos.length === 0;
 }
 
 function togglePhoto(id) {
   if (selected.has(id)) {
     selected.delete(id);
+  } else if (selected.size >= getSelectionLimit()) {
+    showToast("Selection limit reached. Unselect a photo first to choose another.");
+    return;
   } else {
     selected.add(id);
   }
@@ -211,6 +220,7 @@ proofFiles.addEventListener("change", () => {
 });
 
 galleryName.addEventListener("input", updateGalleryMeta);
+selectionLimit.addEventListener("input", updateGalleryMeta);
 
 clearGallery.addEventListener("click", () => {
   if (!photos.length) {
