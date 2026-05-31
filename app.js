@@ -1,17 +1,4 @@
-let photos = [
-  { id: "TP-001", fileName: "TP-001.jpg", tone: "#c49975", pos: "46% 27%", url: "assets/workflow-hero.png" },
-  { id: "TP-002", fileName: "TP-002.jpg", tone: "#dcb584", pos: "55% 31%", url: "assets/workflow-hero.png" },
-  { id: "TP-003", fileName: "TP-003.jpg", tone: "#6f876f", pos: "62% 29%", url: "assets/workflow-hero.png" },
-  { id: "TP-004", fileName: "TP-004.jpg", tone: "#c97155", pos: "70% 31%", url: "assets/workflow-hero.png" },
-  { id: "TP-005", fileName: "TP-005.jpg", tone: "#9fb2b8", pos: "76% 30%", url: "assets/workflow-hero.png" },
-  { id: "TP-006", fileName: "TP-006.jpg", tone: "#aa905e", pos: "84% 42%", url: "assets/workflow-hero.png" },
-  { id: "TP-007", fileName: "TP-007.jpg", tone: "#d7a583", pos: "18% 81%", url: "assets/workflow-hero.png" },
-  { id: "TP-008", fileName: "TP-008.jpg", tone: "#61828c", pos: "40% 72%", url: "assets/workflow-hero.png" },
-  { id: "TP-009", fileName: "TP-009.jpg", tone: "#9f6a43", pos: "59% 65%", url: "assets/workflow-hero.png" },
-  { id: "TP-010", fileName: "TP-010.jpg", tone: "#86a187", pos: "74% 63%", url: "assets/workflow-hero.png" },
-  { id: "TP-011", fileName: "TP-011.jpg", tone: "#b07b86", pos: "90% 72%", url: "assets/workflow-hero.png" },
-  { id: "TP-012", fileName: "TP-012.jpg", tone: "#776f88", pos: "28% 46%", url: "assets/workflow-hero.png" }
-];
+let photos = [];
 
 const selected = new Set();
 const uploadedUrls = [];
@@ -38,33 +25,53 @@ function showToast(message) {
 function renderPhotos() {
   grid.innerHTML = "";
 
-  photos
-    .filter((photo) => {
-      if (currentFilter === "selected") return selected.has(photo.id);
-      if (currentFilter === "unselected") return !selected.has(photo.id);
-      return true;
-    })
-    .forEach((photo) => {
-      const card = document.createElement("article");
-      card.className = `photo-card${selected.has(photo.id) ? " is-selected" : ""}`;
-      card.style.setProperty("--thumb", photo.tone);
-      card.style.setProperty("--position", photo.pos);
-      card.style.setProperty("--image", `url("${photo.url}")`);
+  if (!photos.length) {
+    grid.innerHTML = `
+      <div class="empty-gallery">
+        <strong>No previews uploaded yet</strong>
+        <p>Upload your client proof images above and they will appear here for selection.</p>
+      </div>
+    `;
+    return;
+  }
 
-      card.innerHTML = `
-        <button class="favorite-button" type="button" aria-label="Select ${photo.id}" aria-pressed="${selected.has(photo.id)}">
-          ${selected.has(photo.id) ? "♥" : "♡"}
-        </button>
-        <div class="photo-thumb" role="img" aria-label="Preview image ${photo.id}"></div>
-        <div class="photo-meta">
-          <strong>${photo.id}</strong>
-          <span>${photo.fileName}</span>
-        </div>
-      `;
+  const visiblePhotos = photos.filter((photo) => {
+    if (currentFilter === "selected") return selected.has(photo.id);
+    if (currentFilter === "unselected") return !selected.has(photo.id);
+    return true;
+  });
 
-      card.querySelector("button").addEventListener("click", () => togglePhoto(photo.id));
-      grid.appendChild(card);
-    });
+  if (!visiblePhotos.length) {
+    grid.innerHTML = `
+      <div class="empty-gallery">
+        <strong>No photos in this view</strong>
+        <p>Switch filters or select photos from the full gallery.</p>
+      </div>
+    `;
+    return;
+  }
+
+  visiblePhotos.forEach((photo) => {
+    const card = document.createElement("article");
+    card.className = `photo-card${selected.has(photo.id) ? " is-selected" : ""}`;
+    card.style.setProperty("--thumb", photo.tone);
+    card.style.setProperty("--position", photo.pos);
+    card.style.setProperty("--image", `url("${photo.url}")`);
+
+    card.innerHTML = `
+      <button class="favorite-button" type="button" aria-label="Select ${photo.id}" aria-pressed="${selected.has(photo.id)}">
+        ${selected.has(photo.id) ? "♥" : "♡"}
+      </button>
+      <div class="photo-thumb" role="img" aria-label="Preview image ${photo.id}"></div>
+      <div class="photo-meta">
+        <strong>${photo.id}</strong>
+        <span>${photo.fileName}</span>
+      </div>
+    `;
+
+    card.querySelector("button").addEventListener("click", () => togglePhoto(photo.id));
+    grid.appendChild(card);
+  });
 }
 
 function renderSelectedList() {

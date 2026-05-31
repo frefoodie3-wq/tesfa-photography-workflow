@@ -472,6 +472,29 @@ button:focus,
   gap: 14px;
 }
 
+.empty-gallery {
+  display: grid;
+  min-height: 240px;
+  grid-column: 1 / -1;
+  place-items: center;
+  padding: 32px;
+  border: 1px dashed rgba(83, 104, 92, 0.45);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  text-align: center;
+}
+
+.empty-gallery strong {
+  font-size: 20px;
+}
+
+.empty-gallery p {
+  max-width: 420px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .photo-card {
   position: relative;
   overflow: hidden;
