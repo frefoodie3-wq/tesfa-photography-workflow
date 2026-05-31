@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tesfa Photography Workflow</title>
+    <title>Tesfa Photography Client Gallery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
         </span>
       </a>
       <nav>
-        <a href="#workflow">Workflow</a>
-        <a href="#client-view">Client View</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#client-view">Selections</a>
         <a href="#deliver">Delivery</a>
       </nav>
       <button class="icon-button" type="button" aria-label="Copy client link" data-copy-link>
@@ -30,76 +30,28 @@
 
     <main id="workspace">
       <section class="hero">
-        <img class="hero-image" src="assets/workflow-hero.png" alt="Photography workflow desk with laptop contact sheet and camera equipment">
+        <img class="hero-image" src="assets/workflow-hero.png" alt="Photography desk with laptop contact sheet and camera equipment">
         <div class="hero-copy">
-          <p class="eyebrow">Easiest Professional Workflow</p>
+          <p class="eyebrow">Client Gallery System</p>
           <h1>Tesfa Photography</h1>
           <p>Build a private preview gallery, send one clean link, collect client favorites, and deliver edited originals when they are ready.</p>
           <div class="hero-actions">
-            <a class="primary-action" href="#workflow">Create Gallery</a>
-            <a class="secondary-action" href="#client-view">Preview Client Link</a>
+            <a class="primary-action" href="#gallery">Create Gallery</a>
+            <a class="secondary-action" href="#client-view">Open Gallery</a>
           </div>
         </div>
       </section>
 
-      <section class="workspace-grid" id="workflow" aria-label="Photographer workflow">
-        <div class="panel command-panel">
-          <div class="panel-heading">
-            <span>Workflow</span>
-            <strong>Your gallery pipeline</strong>
-          </div>
-          <ol class="steps">
-            <li class="is-complete">
-              <span>01</span>
-              <div>
-                <strong>Create gallery</strong>
-                <p>Wedding, portrait, event, or studio session.</p>
-              </div>
-            </li>
-            <li class="is-complete">
-              <span>02</span>
-              <div>
-                <strong>Upload previews</strong>
-                <p>Low-res proofs stay organized by filename.</p>
-              </div>
-            </li>
-            <li class="is-active">
-              <span>03</span>
-              <div>
-                <strong>Send link to client</strong>
-                <p>Private selection link ready to share.</p>
-              </div>
-            </li>
-            <li>
-              <span>04</span>
-              <div>
-                <strong>Client selects favorites</strong>
-                <p>They tap hearts and submit their list.</p>
-              </div>
-            </li>
-            <li>
-              <span>05</span>
-              <div>
-                <strong>Deliver edited originals later</strong>
-                <p>Final files are tracked after editing.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
+      <section class="workspace-grid" id="gallery" aria-label="Gallery setup">
         <div class="panel gallery-builder">
           <div class="panel-heading">
             <span>Gallery Setup</span>
-            <strong>Create a client gallery</strong>
+            <strong>Prepare a client gallery</strong>
           </div>
           <form class="setup-form">
             <label>
               Gallery name
               <input id="galleryName" type="text" value="Miriam & Daniel Engagement">
-            </label>
-            <label>
-              Client email
-              <input type="email" value="client@example.com">
             </label>
             <label>
               Selection deadline
@@ -110,14 +62,30 @@
               <input id="maxFavorites" type="number" min="1" max="40" value="12">
             </label>
           </form>
-          <div class="upload-zone" role="button" tabindex="0">
+          <button class="upload-zone" type="button" id="uploadButton">
             <span aria-hidden="true">↑</span>
             <strong>Upload previews</strong>
-            <p>Drop low-res JPG previews here or choose files.</p>
-          </div>
+            <p id="uploadStatus">Choose JPG or PNG proof images.</p>
+          </button>
+          <input class="file-input" id="proofFiles" type="file" accept="image/*" multiple>
           <div class="link-box">
-            <span id="clientLink">tesfaphoto.com/g/miriam-daniel</span>
+            <span id="clientLink">Loading gallery link...</span>
             <button type="button" data-copy-link>Copy</button>
+          </div>
+        </div>
+
+        <div class="ready-board" aria-label="Gallery status">
+          <div class="ready-card">
+            <span id="proofCount">12</span>
+            <strong>Preview files</strong>
+          </div>
+          <div class="ready-card">
+            <span id="favoriteLimit">12</span>
+            <strong>Favorite limit</strong>
+          </div>
+          <div class="ready-card">
+            <span>TXT</span>
+            <strong>Selected list export</strong>
           </div>
         </div>
       </section>
@@ -125,7 +93,7 @@
       <section class="client-section" id="client-view" aria-label="Client gallery view">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Client View</p>
+            <p class="eyebrow">Client Gallery</p>
             <h2>Choose favorites from the preview gallery</h2>
           </div>
           <div class="selection-meter" aria-live="polite">
@@ -149,7 +117,7 @@
       <section class="delivery-band" id="deliver" aria-label="Delivery tracking">
         <div class="delivery-copy">
           <p class="eyebrow">After Selection</p>
-          <h2>Receive the selected list and deliver originals later.</h2>
+          <h2>Download the selected list for editing.</h2>
           <p>The submitted filenames are ready for your editing queue, so you can retouch the right images and send final high-resolution files when complete.</p>
         </div>
         <div class="panel selected-panel">

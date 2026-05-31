@@ -229,7 +229,7 @@ h2 {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: 0.95fr 1.25fr;
+  grid-template-columns: minmax(0, 1fr) 360px;
   gap: 18px;
   padding: 54px 0 34px;
 }
@@ -261,57 +261,11 @@ h2 {
   font-size: 16px;
 }
 
-.steps {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  padding: 18px;
-  list-style: none;
-}
-
-.steps li {
-  display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 12px;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fbfaf7;
-}
-
-.steps li > span {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border-radius: 50%;
-  color: var(--muted);
-  background: var(--paper);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.steps p,
 .delivery-copy p,
 .upload-zone p {
   margin: 4px 0 0;
   color: var(--muted);
   line-height: 1.45;
-}
-
-.steps .is-complete > span {
-  color: #fff;
-  background: var(--sage);
-}
-
-.steps .is-active {
-  border-color: rgba(184, 95, 54, 0.45);
-  background: #fff5ef;
-}
-
-.steps .is-active > span {
-  color: #fff;
-  background: var(--accent);
 }
 
 .gallery-builder {
@@ -320,7 +274,7 @@ h2 {
 
 .setup-form {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1.4fr 1fr 1fr;
   gap: 14px;
   padding: 18px;
 }
@@ -353,6 +307,7 @@ button:focus,
 .upload-zone {
   display: grid;
   place-items: center;
+  width: calc(100% - 36px);
   min-height: 178px;
   margin: 0 18px 18px;
   border: 2px dashed rgba(83, 104, 92, 0.45);
@@ -360,6 +315,7 @@ button:focus,
   background: linear-gradient(135deg, rgba(217, 231, 235, 0.68), rgba(255, 255, 255, 0.9));
   text-align: center;
   cursor: pointer;
+  color: inherit;
 }
 
 .upload-zone span {
@@ -372,6 +328,14 @@ button:focus,
   color: #fff;
   background: var(--sage);
   font-weight: 900;
+}
+
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .link-box {
@@ -398,6 +362,34 @@ button:focus,
   padding: 0 16px;
   color: var(--ink);
   background: #fff;
+}
+
+.ready-board {
+  display: grid;
+  gap: 14px;
+}
+
+.ready-card {
+  display: grid;
+  gap: 12px;
+  align-content: space-between;
+  min-height: 142px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.ready-card span {
+  color: var(--accent);
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.ready-card strong {
+  font-size: 15px;
 }
 
 .client-section {
@@ -495,7 +487,7 @@ button:focus,
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.26)),
     linear-gradient(135deg, color-mix(in srgb, var(--thumb) 45%, transparent), rgba(255, 255, 255, 0.05)),
-    url("assets/workflow-hero.png");
+    var(--image);
   background-position: center, center, var(--position);
   background-size: cover, cover, 330%;
 }
@@ -509,9 +501,13 @@ button:focus,
 }
 
 .photo-meta span {
+  min-width: 0;
+  overflow: hidden;
   color: var(--muted);
   font-size: 12px;
   font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .favorite-button {
@@ -656,6 +652,10 @@ button:focus,
   .setup-form,
   .photo-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ready-card {
+    min-height: 112px;
   }
 
   .section-heading,

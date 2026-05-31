@@ -1,8 +1,8 @@
-# Tesfa Photography Client Proofing
+# Tesfa Photography Client Gallery
 
-A static client gallery workflow for Tesfa Photography.
+A static client gallery for Tesfa Photography.
 
-The site supports the basic professional proofing flow:
+The site supports a simple professional proofing setup:
 
 1. Create a gallery.
 2. Upload preview images.
