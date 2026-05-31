@@ -21,12 +21,10 @@ const grid = document.querySelector("#photoGrid");
 const selectedCount = document.querySelector("#selectedCount");
 const selectedList = document.querySelector("#selectedList");
 const selectedTitle = document.querySelector("#selectedTitle");
-const maxFavorites = document.querySelector("#maxFavorites");
 const galleryName = document.querySelector("#galleryName");
 const clientLink = document.querySelector("#clientLink");
 const proofFiles = document.querySelector("#proofFiles");
 const proofCount = document.querySelector("#proofCount");
-const favoriteLimit = document.querySelector("#favoriteLimit");
 const uploadStatus = document.querySelector("#uploadStatus");
 const toast = document.querySelector("#toast");
 
@@ -102,17 +100,11 @@ function updateGalleryMeta() {
 
   clientLink.textContent = `${window.location.origin}/?gallery=${slug}#client-view`;
   proofCount.textContent = photos.length;
-  favoriteLimit.textContent = maxFavorites.value || "12";
 }
 
 function togglePhoto(id) {
-  const limit = Number(maxFavorites.value) || 12;
-
   if (selected.has(id)) {
     selected.delete(id);
-  } else if (selected.size >= limit) {
-    showToast(`Selection limit reached: ${limit} photos.`);
-    return;
   } else {
     selected.add(id);
   }
@@ -181,7 +173,6 @@ proofFiles.addEventListener("change", () => {
 });
 
 galleryName.addEventListener("input", updateGalleryMeta);
-maxFavorites.addEventListener("input", updateGalleryMeta);
 
 document.querySelector("#submitSelections").addEventListener("click", () => {
   if (!selected.size) {
