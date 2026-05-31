@@ -80,7 +80,7 @@ function renderSelectedList() {
 
   if (!ids.length) {
     const empty = document.createElement("li");
-    empty.textContent = "No favorites selected yet";
+    empty.textContent = "No selections yet";
     selectedList.appendChild(empty);
     return;
   }
@@ -111,7 +111,7 @@ function togglePhoto(id) {
   if (selected.has(id)) {
     selected.delete(id);
   } else if (selected.size >= limit) {
-    showToast(`Selection limit reached: ${limit} favorites.`);
+    showToast(`Selection limit reached: ${limit} photos.`);
     return;
   } else {
     selected.add(id);
