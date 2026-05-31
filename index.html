@@ -61,9 +61,12 @@
           <button class="upload-zone" type="button" id="uploadButton">
             <span aria-hidden="true">↑</span>
             <strong>Upload previews</strong>
-            <p id="uploadStatus">Choose JPG or PNG proof images.</p>
+            <p id="uploadStatus">Choose JPG or PNG proof images. You can add more later.</p>
           </button>
           <input class="file-input" id="proofFiles" type="file" accept="image/*" multiple>
+          <div class="gallery-actions">
+            <button class="clear-button" type="button" id="clearGallery">Clear uploaded previews</button>
+          </div>
           <div class="link-box">
             <span id="clientLink">Loading gallery link...</span>
             <button type="button" data-copy-link>Copy</button>

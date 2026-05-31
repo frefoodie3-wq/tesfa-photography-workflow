@@ -338,6 +338,29 @@ button:focus,
   pointer-events: none;
 }
 
+.gallery-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 18px 18px;
+}
+
+.clear-button {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 14px;
+  color: var(--accent-dark);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.clear-button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .link-box {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

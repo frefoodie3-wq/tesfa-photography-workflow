@@ -13,6 +13,7 @@ const clientLink = document.querySelector("#clientLink");
 const proofFiles = document.querySelector("#proofFiles");
 const proofCount = document.querySelector("#proofCount");
 const uploadStatus = document.querySelector("#uploadStatus");
+const clearGallery = document.querySelector("#clearGallery");
 const toast = document.querySelector("#toast");
 
 function showToast(message) {
@@ -107,6 +108,7 @@ function updateGalleryMeta() {
 
   clientLink.textContent = `${window.location.origin}/?gallery=${slug}#client-view`;
   proofCount.textContent = photos.length;
+  clearGallery.disabled = photos.length === 0;
 }
 
 function togglePhoto(id) {
@@ -153,33 +155,53 @@ proofFiles.addEventListener("change", () => {
     return;
   }
 
-  uploadedUrls.forEach((url) => URL.revokeObjectURL(url));
-  uploadedUrls.length = 0;
-  selected.clear();
-
-  photos = files.map((file, index) => {
+  const startIndex = photos.length;
+  const newPhotos = files.map((file, index) => {
     const url = URL.createObjectURL(file);
     uploadedUrls.push(url);
     return {
-      id: `TP-${String(index + 1).padStart(3, "0")}`,
+      id: `TP-${String(startIndex + index + 1).padStart(3, "0")}`,
       fileName: file.name,
-      tone: ["#c49975", "#dcb584", "#6f876f", "#c97155", "#9fb2b8", "#aa905e"][index % 6],
+      tone: ["#c49975", "#dcb584", "#6f876f", "#c97155", "#9fb2b8", "#aa905e"][(startIndex + index) % 6],
       pos: "center",
       url
     };
   });
 
+  photos = [...photos, ...newPhotos];
   currentFilter = "all";
   document.querySelectorAll("[data-filter]").forEach((item) => item.classList.remove("is-selected"));
   document.querySelector('[data-filter="all"]').classList.add("is-selected");
-  uploadStatus.textContent = `${files.length} preview${files.length === 1 ? "" : "s"} loaded.`;
+  uploadStatus.textContent = `${files.length} added. ${photos.length} total preview${photos.length === 1 ? "" : "s"} loaded.`;
+  proofFiles.value = "";
   updateGalleryMeta();
   renderPhotos();
   renderSelectedList();
-  showToast("Preview gallery updated.");
+  showToast(`${files.length} preview${files.length === 1 ? "" : "s"} added.`);
 });
 
 galleryName.addEventListener("input", updateGalleryMeta);
+
+clearGallery.addEventListener("click", () => {
+  if (!photos.length) {
+    showToast("There are no previews to clear.");
+    return;
+  }
+
+  uploadedUrls.forEach((url) => URL.revokeObjectURL(url));
+  uploadedUrls.length = 0;
+  photos = [];
+  selected.clear();
+  currentFilter = "all";
+  document.querySelectorAll("[data-filter]").forEach((item) => item.classList.remove("is-selected"));
+  document.querySelector('[data-filter="all"]').classList.add("is-selected");
+  proofFiles.value = "";
+  uploadStatus.textContent = "Choose JPG or PNG proof images. You can add more later.";
+  updateGalleryMeta();
+  renderPhotos();
+  renderSelectedList();
+  showToast("Uploaded previews cleared.");
+});
 
 document.querySelector("#submitSelections").addEventListener("click", () => {
   if (!selected.size) {
