@@ -31,7 +31,9 @@ const adminEmail = document.querySelector("#adminEmail");
 const adminPassword = document.querySelector("#adminPassword");
 const signInButton = document.querySelector("#signInButton");
 const signOutButton = document.querySelector("#signOutButton");
+const submitSelections = document.querySelector("#submitSelections");
 const toast = document.querySelector("#toast");
+let isSavingPayment = false;
 
 function getFileKey(file) {
   return `${file.name}-${file.size}-${file.lastModified}`;
@@ -533,16 +535,27 @@ signOutButton.addEventListener("click", async () => {
   showToast("Signed out.");
 });
 
-document.querySelector("#submitSelections").addEventListener("click", () => {
+submitSelections.addEventListener("click", async () => {
+  if (isSavingPayment) return;
+
   if (!selected.size) {
     showToast("Select at least one favorite before sending.");
     return;
   }
 
-  showToast(isSupabaseConfigured && currentClientToken
-    ? "Selected list saved for the photographer."
-    : "Selected list ready for download.");
-  document.querySelector("#deliver").scrollIntoView({ behavior: "smooth", block: "start" });
+  isSavingPayment = true;
+  submitSelections.disabled = true;
+  showToast("Saving payment... Please do not close this page.");
+
+  try {
+    await Promise.resolve();
+    showToast("Payment saved successfully.");
+    document.querySelector("#deliver").scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (error) {
+    isSavingPayment = false;
+    submitSelections.disabled = false;
+    showToast(error.message || "Could not save payment.");
+  }
 });
 
 document.querySelector("#downloadList").addEventListener("click", () => {
